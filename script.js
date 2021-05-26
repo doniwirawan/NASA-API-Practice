@@ -3,7 +3,6 @@ const favoritesNav = document.querySelector('#favoritesNav')
 const imagesContainer = document.querySelector('.images-container')
 const saveConfirmed = document.querySelector('.save-confirmed')
 const loader = document.querySelector('.loader')
-const loading = document.querySelector('.loader2')
 
 
 
@@ -105,17 +104,13 @@ function updateDOM(page) {
 // get 10 images from nasa api
 async function getNasaPictures(counter) {
     // show loader
-    // saya merubah ini
-    // loader.classList.remove('hidden')
+    loader.classList.remove('hidden')
 
     try {
-        // const response = await fetch(apiUrl)
-        // saya merubah ini
-        const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${counter}`)
+        const response = await fetch(apiUrl)
         resultsArray = await response.json()
         console.log(resultsArray)
         updateDOM('results')
-        // updateDOM('favorites')
     } catch (error) {
         console.log(error)
     }
@@ -152,27 +147,6 @@ function removeFavorite(itemUrl) {
         updateDOM('favorites')
     }
 }
-function showLoading() {
-    loading.classList.add('show')
-    setTimeout(() => {
-        loading.classList.remove('show')
-
-        setTimeout(() => {
-            const counter = count++
-            // saya merubah ini
-            getNasaPictures(counter)
-        }, 300)
-    }, 1000)
-}
-
-window.addEventListener('scroll', () => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-
-    if (scrollTop + clientHeight >= scrollHeight - 5) {
-        showLoading()
-
-    }
-})
 
 // on load
 getNasaPictures()
