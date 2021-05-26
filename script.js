@@ -28,7 +28,7 @@ function showContent(page) {
 }
 
 
-function createDOMNOdes(page) {
+function createDOMNodes(page) {
     const currentArray = page === 'results' ? resultsArray : Object.values(favorites)
 
     currentArray.forEach(result => {
@@ -97,18 +97,21 @@ function updateDOM(page) {
         favorites = JSON.parse(localStorage.getItem('nasaFavorites'))
     }
     imagesContainer.textContent = ''
-    createDOMNOdes(page)
+    createDOMNodes(page)
     showContent(page)
 
 }
 
 // get 10 images from nasa api
-async function getNasaPictures() {
+async function getNasaPictures(counter) {
     // show loader
-    loader.classList.remove('hidden')
+    // saya merubah ini
+    // loader.classList.remove('hidden')
 
     try {
-        const response = await fetch(apiUrl)
+        // const response = await fetch(apiUrl)
+        // saya merubah ini
+        const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${counter}`)
         resultsArray = await response.json()
         console.log(resultsArray)
         updateDOM('results')
@@ -155,8 +158,9 @@ function showLoading() {
         loading.classList.remove('show')
 
         setTimeout(() => {
-            count++;
-            getNasaPictures()
+            const counter = count++
+            // saya merubah ini
+            getNasaPictures(counter)
         }, 300)
     }, 1000)
 }
